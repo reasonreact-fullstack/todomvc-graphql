@@ -1,0 +1,13 @@
+.background {
+  background: #f5f5f5;
+  color: #4d4d4d;
+  min-height: 100vh;
+}
+
+.title {
+  color: rgba(175, 47, 47, 0.15);
+  font-size: 100px;
+  font-weight: 100;
+  margin: 0;
+  text-align: center;
+}

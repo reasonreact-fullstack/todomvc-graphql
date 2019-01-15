@@ -28,7 +28,7 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/,
+        test: /\.s?css$/,
         use: [
           isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
           {
@@ -49,6 +49,9 @@ module.exports = {
                 require('postcss-sass-color-functions'),
                 require('postcss-preset-env')({
                   stage: 2,
+                  features: {
+                    'nesting-rules': true,
+                  }
                 }),
                 require('postcss-reporter')(),
                 require('postcss-browser-reporter')({

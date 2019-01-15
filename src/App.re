@@ -1,3 +1,4 @@
+let styles = [%raw {| require("./App.scss") |}]
 type state = {
     page: Url.page,
 };
