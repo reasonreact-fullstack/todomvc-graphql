@@ -20,6 +20,12 @@ type action =
 
 let component = ReasonReact.reducerComponent("Todos");
 
+let count = ref(0);
+let counter = () => {
+    count := count^ + 1;
+    count^
+}
+
 let make = (_children) => {
     ...component,
     initialState: () => {
@@ -33,13 +39,16 @@ let make = (_children) => {
         switch(action) {
         | AddNew(newItem) => ReasonReact.Update({ 
             ...state, 
-            todos: state.todos |> List.append([newItem]) 
+            todos: state.todos -> List.append([{
+                ...newItem,
+                id: counter(),
+            }]) 
         })
         | CompleteAll => ReasonReact.Update({ 
             ...state, 
             todos: state.todos |> List.map((todo:todoItem) => {
                 ...todo, 
-                completed: true
+                completed: !(state.todos->List.nth(0)).completed,
             })
         })
         | Toggle(toggledItem) => ReasonReact.Update({
@@ -78,8 +87,13 @@ let make = (_children) => {
     },
 
     render: self => {
+        Js.log(self.state.todos);
+
         <div className=styles##wrap>
-            <ToDoHeader />
+            <ToDoHeader 
+                submit={ todo => self.send(AddNew(todo)); } 
+                completeAll={ () => self.send(CompleteAll) }
+            />
             <ToDoItemList todos=self.state.todos />
             <ToDoFooter />
         </div>

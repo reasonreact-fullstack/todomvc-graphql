@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     position: relative;
+    border-bottom: 1px solid #e6e6e6;
 
     &:hover .remove-button {
         display: block;
@@ -21,8 +22,15 @@
 
 .text {
     font-size: 24px;
+    width: 100%;
     padding: 15px;
     padding-right: 20px;
+    transition: color 0.4s;
+
+    &.completed {
+        color: #d9d9d9;
+        text-decoration: line-through;
+    }
 }
 
 .remove-button {
