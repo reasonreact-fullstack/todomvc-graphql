@@ -1,0 +1,35 @@
+.wrap {
+    display: flex;
+    color: #777;
+    padding: 10px 15px;
+    height: 20px;
+    border-top: 1px solid #e6e6e6;
+}
+
+.count {
+    width: 30%;
+}
+
+.filters {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 40%;
+    justify-content: center;
+}
+
+.filter {
+    padding: 3px 7px;
+    border: 1px solid transparent;
+
+    &.active {
+        border: rgba(175, 47, 47, 0.2);
+    }
+}
+
+.remove-completed {
+    opacity: 0;
+    width: 30%;
+    text-align: right;
+}

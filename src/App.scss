@@ -13,6 +13,9 @@ body {
 button {
   background-color: #fff;
   border: none;
+  color: inherit;
+  background: inherit;
+  cursor: pointer;
 }
 
 :global(#app) {

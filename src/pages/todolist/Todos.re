@@ -81,7 +81,7 @@ let make = (_children) => {
         <div className=styles##wrap>
             <ToDoHeader />
             <ToDoItemList todos=self.state.todos />
-            <ToDoFilter />
+            <ToDoFooter />
         </div>
     }
 }
