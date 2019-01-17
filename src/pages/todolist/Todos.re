@@ -2,7 +2,7 @@ let styles: TodosStyles.definition = [%raw {| require("./Todos.scss") |}]
 
 type todoItem = ToDoTypes.todo;
 
-type filter = All | Active | Completed
+type filter = ToDoTypes.filter;
 
 type state = {
     todos: list(todoItem),
@@ -98,20 +98,46 @@ let make = (_children) => {
     },
 
     render: self => {
-        Js.log(self.state.todos);
-
         <div className=styles##wrap>
             <ToDoHeader 
                 submit={ todo => self.send(AddNew(todo)); } 
                 completeAll={ () => self.send(CompleteAll) }
             />
             <ToDoItemList 
-                todos=self.state.todos 
+                todos={
+                    self.state.todos 
+                    |> List.filter((todo:todoItem) => {
+                        switch(self.state.filter) {
+                        | All => true
+                        | Active => !todo.completed
+                        | Completed => todo.completed
+                        }
+                    })
+                }
                 toggleTodo={ todo => self.send(Toggle(todo)) }
                 submit={ todo => self.send(Edit(todo))}
                 remove={ todoID => self.send(Remove(todoID))}
             />
-            <ToDoFooter />
+            {   
+                let length = List.length(self.state.todos);
+
+                switch(length){
+                | 0 => 
+                    { ReasonReact.string("") }
+                | _ => 
+                    <ToDoFooter 
+                        count=length
+                        currentFilter=self.state.filter
+                        filter={ filter => self.send(Filter(filter))}
+                        hasCompleted={ self.state.todos 
+                            |> List.exists((todo:todoItem) => {
+                                todo.completed
+                            })
+                        }
+                        removeCompleted={ () => self.send(RemoveCompleted) }
+                    />
+                }
+            }
         </div>
     }
 }

@@ -24,12 +24,17 @@
     border: 1px solid transparent;
 
     &.active {
-        border: rgba(175, 47, 47, 0.2);
+        border-color: rgba(175, 47, 47, 0.2);
+        border-radius: 3px;
     }
 }
 
 .remove-completed {
-    opacity: 0;
+    display: none;
     width: 30%;
     text-align: right;
+
+    &.show {
+        display: block;
+    }
 }
