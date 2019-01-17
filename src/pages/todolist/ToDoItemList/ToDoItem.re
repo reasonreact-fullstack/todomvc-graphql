@@ -14,6 +14,7 @@ let make = (
     ~todo: todoItem, 
     ~toggleTodo: todoItem => unit,
     ~submit: todoItem => unit,
+    ~remove: int => unit,
     _children
 ) => {
     ...component,
@@ -65,6 +66,7 @@ let make = (
                     styles##removeButton,
                     styles##editText->Cn.ifTrue(self.state.editMode),
                 ])
+                onClick={ _e => remove(todo.id) }
             >
                 { ReasonReact.string({j|×|j}) }
             </button>

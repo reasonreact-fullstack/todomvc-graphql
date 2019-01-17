@@ -109,6 +109,7 @@ let make = (_children) => {
                 todos=self.state.todos 
                 toggleTodo={ todo => self.send(Toggle(todo)) }
                 submit={ todo => self.send(Edit(todo))}
+                remove={ todoID => self.send(Remove(todoID))}
             />
             <ToDoFooter />
         </div>

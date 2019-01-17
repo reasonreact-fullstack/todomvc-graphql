@@ -8,6 +8,7 @@ let make = (
     ~todos: list(ToDoTypes.todo), 
     ~toggleTodo: todoItem => unit,
     ~submit: todoItem => unit,
+    ~remove: int => unit,
     _children
 ) => {
     ...component,
@@ -16,7 +17,7 @@ let make = (
         <div className=styles##wrap>
             <ul className=styles##list>
             {ReasonReact.array(Array.map((todo:ToDoTypes.todo) => {
-                <ToDoItem key=string_of_int(todo.id) todo toggleTodo submit />
+                <ToDoItem key=string_of_int(todo.id) todo toggleTodo submit remove />
             }, Array.of_list(todos)))}
             </ul>
         </div>
