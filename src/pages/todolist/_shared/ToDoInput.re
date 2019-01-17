@@ -1,6 +1,7 @@
 let styles: ToDoInputStyles.definition = [%raw {| require("./ToDoInput.scss") |}]
 type state = {
-    text: string,
+    givenText: string,
+    currentText: string,
 };
 
 type action = ChangeText(string);
@@ -16,24 +17,32 @@ let make = (
 ) => {
     ...component,
     initialState: () => {
-        text: text,
+        givenText: text,
+        currentText: text,
     },
 
-    reducer: (action: action, _state: state) => {
+    reducer: (action: action, state: state) => {
         switch(action) {
-        | ChangeText(text) => ReasonReact.Update({ text: text} )
+        | ChangeText(text) => ReasonReact.Update({ ...state, currentText: text} )
         }
     },
 
     render: self => {
         let handleSubmit = (event:ReactEvent.Keyboard.t) => {
-            if (ReactEvent.Keyboard.keyCode(event) == 13 /* Enter */) {
+            let keyCode = ReactEvent.Keyboard.keyCode(event);
+            switch(keyCode) {
+            | 13 /* Enter */ => {
                 submit({
                     id: -1,
-                    content: self.state.text,
+                    content: self.state.currentText,
                     completed: false,
                 })
                 self.send(ChangeText(""));
+            }
+            | 27 /* ESC */ => {
+                self.send(ChangeText(self.state.givenText))
+            }
+            | _ => ()
             }
         };
 
@@ -44,12 +53,14 @@ let make = (
         <input type_="text" 
             className=Cn.make([
                 styles##textbox,
-                styles##newTodo->Cn.ifTrue(newTodo),
+                styles##newMode->Cn.ifTrue(newTodo),
+                styles##editMode->Cn.ifTrue(!newTodo),
             ])
-            value=self.state.text
+            value=self.state.currentText
             onKeyDown={event => handleSubmit(event)}
             onChange
             placeholder
+            autoFocus=true
         />
     }
 }
