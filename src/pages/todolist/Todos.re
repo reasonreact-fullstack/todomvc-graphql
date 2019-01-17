@@ -105,7 +105,11 @@ let make = (_children) => {
                 submit={ todo => self.send(AddNew(todo)); } 
                 completeAll={ () => self.send(CompleteAll) }
             />
-            <ToDoItemList todos=self.state.todos />
+            <ToDoItemList 
+                todos=self.state.todos 
+                toggleTodo={ todo => self.send(Toggle(todo)) }
+                submit={ todo => self.send(Edit(todo))}
+            />
             <ToDoFooter />
         </div>
     }

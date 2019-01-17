@@ -6,6 +6,10 @@
 
     &:hover .remove-button {
         display: block;
+
+        &.edit-text {
+            display: none;
+        }
     }
 }
 
@@ -30,6 +34,10 @@
     &.completed {
         color: #d9d9d9;
         text-decoration: line-through;
+    }
+
+    &.edit-text {
+        padding: 0;
     }
 }
 
