@@ -46,10 +46,21 @@ let make = (_children) => {
         })
         | CompleteAll => ReasonReact.Update({ 
             ...state, 
-            todos: state.todos |> List.map((todo:todoItem) => {
-                ...todo, 
-                completed: !(state.todos->List.nth(0)).completed,
-            })
+            todos: state.todos 
+                |> todos => {
+                    let countIncompleted = todos 
+                        |> List.filter((todo:todoItem) => {
+                            !todo.completed
+                        })
+                        |> List.length
+                    countIncompleted == 0
+                }
+                |> allCompleted => {
+                    state.todos |> List.map((todo:todoItem) => {
+                        ...todo, 
+                        completed: !allCompleted,
+                    })
+                }
         })
         | Toggle(toggledItem) => ReasonReact.Update({
             ...state,
